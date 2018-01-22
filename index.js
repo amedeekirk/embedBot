@@ -6,7 +6,7 @@ const fs = require('fs');
 
 const bot = new Discord.Client();
 
-bot.login(config.token);
+bot.login(process.env.token);
 
 bot.on('message', function (message) {
     //Ignore other bots
@@ -24,8 +24,8 @@ bot.on('message', function (message) {
                 json: true,
                 title: filename,
                 auth:{
-                    username: config.email,
-                    password: config.password
+                    username: process.env.email,
+                    password: process.env.password
                 }
             }, function (error, response, body) {
                 if(body.status === 2){
