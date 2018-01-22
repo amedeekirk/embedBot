@@ -1,0 +1,27 @@
+{
+  "name": "embedbot",
+  "version": "1.0.0",
+  "description": "Discord -> Streamable video uploading",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^11.2.1",
+    "fs": "^0.0.1-security",
+    "https": "^1.0.0",
+    "request": "^2.83.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/12-Inc/embedBot.git"
+  },
+  "author": "Amedee Kirkpatrick & Caydn Lofton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/12-Inc/embedBot/issues"
+  },
+  "homepage": "https://github.com/12-Inc/embedBot#readme"
+}
