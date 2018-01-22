@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const request = require('request');
 const https = require('https');
 const fs = require('fs');
-const config = require("./config.json");
+//const config = require("./config.json");
 
 const bot = new Discord.Client();
 
