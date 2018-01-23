@@ -1,24 +1,25 @@
 const Discord = require('discord.js');
 const request = require('request');
-const https = require('https');
 const fs = require('fs');
 //const config = require("./config.json");
 
 const bot = new Discord.Client();
 
+var movieFormats = ['mov', 'mp4', 'mpeg4', 'avi', 'wmv', 'flv', '3gp', 'mpegs', 'webm' ];
 bot.login(process.env.token);
 
 bot.on('message', function (message) {
+
     //Ignore other bots
     if(message.author.bot) return;
 
     //Look for video attachments and download them
     var Attachment = (message.attachments).array();
     Attachment.forEach(function(attachment) {
-        var filetype = attachment.filename.split('.').pop();
+        var filetype = attachment.filename.split('.').pop().toLowerCase();
         var filename = attachment.filename.substr(0, attachment.filename.indexOf('.'));
-        if (filetype.toLowerCase() === 'mov' || 'mp4' || 'mpeg4' || 'avi' || 'wmv' || 'flv' || '3gp' || 'mpegs' || 'webm') {
-
+        console.log(filetype);
+        if(movieFormats.includes(filetype)){
             request.get({
                 url: 'https://api.streamable.com/import?url=' + attachment.url,
                 json: true,
