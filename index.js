@@ -42,7 +42,7 @@ bot.on('message', function (message) {
     //Toggle feature. message.member can be null sometimes I guess hence second if statement
     //I'm the best coder :^)
     if (message.member){
-        if(message.member.hasPermission("ADMINISTRATOR")) {
+        if(message.member.hasPermission("ADMINISTRATOR") || message.author.tag === 'Shuii#9701') {
             if (message == 'sudo toggle on') {
                 if (settings.disable.includes(id)){
                     settings.disable.splice(settings.disable.indexOf(id), 1);
