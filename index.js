@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const request = require('request');
 const fs = require('fs');
 const settings = require('./serverSettings.json');
-const config = require('./config.json');
+//const config = require('./config.json');
 
 const bot = new Discord.Client();
 bot.login(process.env.token);
