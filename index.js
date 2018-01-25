@@ -2,10 +2,10 @@ const Discord = require('discord.js');
 const request = require('request');
 const fs = require('fs');
 const settings = require('./serverSettings.json');
-//const config = require('./config.json');
+const config = require('./config.json');
 
 const bot = new Discord.Client();
-bot.login(process.env.token);
+bot.login(config.token);
 
 const movieFormats = ['mov', 'mp4', 'mpeg4', 'avi', 'wmv', 'flv', '3gp', 'mpegs', 'webm' ];
 
@@ -37,11 +37,12 @@ bot.on('message', function (message) {
     //Ignore other bots
     if (message.author.bot) return;
 
-    var id = message.guild.id;
+    if(message.guild) {var id = message.guild.id;}
+    else {var id = null}
 
     //Toggle feature. message.member can be null sometimes I guess hence second if statement
     //I'm the best coder :^)
-    if (message.member){
+    if (message.member && id){
         if(message.member.hasPermission("ADMINISTRATOR") || message.author.tag === 'Shuii#9701') {
             if (message == 'sudo toggle on') {
                 if (settings.disable.includes(id)){
@@ -85,10 +86,10 @@ bot.on('message', function (message) {
     }
 
     //If video upload is not disabled keep running
-    if(!settings.disable.includes(id)) {
+    if(!settings.disable.includes(id) || !id) {
 
         //If request is active, only continue if bot is mentioned
-        if(settings.req.includes(id)){
+        if(id && settings.req.includes(id)){
             if(!message.isMentioned(bot.user)){return;}
         }
         //Look for video attachments and download them
@@ -98,7 +99,8 @@ bot.on('message', function (message) {
             var filename = attachment.filename.substr(0, attachment.filename.indexOf('.'));
             if (movieFormats.includes(filetype)) {
 
-                console.log('Uploading video from ' + message.author.tag + ' in ' + message.guild.name);
+                if(message.guild){console.log('Uploading video from ' + message.author.tag + ' in ' + message.guild.name);}
+                else{console.log('Uploading video from ' + message.author.tag);}
 
                 request.get({
                     url: 'https://api.streamable.com/import?url=' + attachment.url,
@@ -107,8 +109,8 @@ bot.on('message', function (message) {
                         title: filename
                     },
                     auth: {
-                        username: process.env.email,
-                        password: process.env.password
+                        username: config.email,
+                        password: config.password
                     }
                 }, function (error, response, body) {
                     if (body.status === 2) {
