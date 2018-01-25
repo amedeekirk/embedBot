@@ -5,7 +5,7 @@ const settings = require('./serverSettings.json');
 const config = require('./config.json');
 
 const bot = new Discord.Client();
-bot.login(config.token);
+bot.login(process.env.token);
 
 const movieFormats = ['mov', 'mp4', 'mpeg4', 'avi', 'wmv', 'flv', '3gp', 'mpegs', 'webm' ];
 
@@ -107,8 +107,8 @@ bot.on('message', function (message) {
                         title: filename
                     },
                     auth: {
-                        username: config.email,
-                        password: config.password
+                        username: process.env.email,
+                        password: process.env.password
                     }
                 }, function (error, response, body) {
                     if (body.status === 2) {
