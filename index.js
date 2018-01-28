@@ -5,10 +5,9 @@ const fs = require('fs');
 const settings = require('./serverSettings.json');
 const config = require('./config.json');
 
+const movieFormats = ['mov', 'mp4', 'mpeg4', 'avi', 'wmv', 'flv', '3gp', 'mpegs', 'webm' ];
 const bot = new Discord.Client();
 bot.login(config.token);
-
-const movieFormats = ['mov', 'mp4', 'mpeg4', 'avi', 'wmv', 'flv', '3gp', 'mpegs', 'webm' ];
 
 //log anything printed to terminal
 var log_file = fs.createWriteStream('log.txt', { flags: 'a' });
@@ -27,6 +26,7 @@ bot.on('guildCreate', function (guild) {
 
 //When removed from guild, delete settings from JSON
 bot.on('guildDelete', function (guild) {
+    console.log("left guild: " + guild.id);
     updateSettings(4, guild.id);
 });
 
@@ -88,8 +88,7 @@ bot.on('message', function (message) {
                 console.log('video done');
                 message.channel.send('https://streamable.com/' + shortcode);
             }
-            else if (body.status === 1) {
-                console.log('video uploading, waiting...');
+            else if (body.status === 0 || body.status === 1) {
                 setTimeout(function () {
                     getUploadStatus(shortcode);
                 }, 1000);
@@ -124,12 +123,27 @@ function updateSettings(setting, id) {
         }
     }
 
-    //add server to new setting
+    //Add server to new setting
     if(setting <= 3){arrays[setting].push(id);}
     fs.writeFileSync('./serverSettings.json', JSON.stringify(settings));
+
+    //Post new server count to discordbots.org
+    console.log('new server count: ' + bot.guilds.size);
+    request.post({
+        uri: 'https://discordbots.org/api/bots/' + bot.user.id + '/stats',
+        headers: {
+            Authorization: config.dbtoken
+        },
+        json: true,
+        body: {
+            server_count: bot.guilds.size
+        }
+    },function (error) {
+        console.log('discordbots.org ' + error)
+    });
 }
 
-//get date for console logger
+//Get date for console logger
 function getDateTime() {
     var date = new Date();
     var hour = date.getHours();
@@ -138,10 +152,9 @@ function getDateTime() {
     min = (min < 10 ? "0" : "") + min;
     var sec  = date.getSeconds();
     sec = (sec < 10 ? "0" : "") + sec;
-    var year = date.getFullYear();
     var month = date.getMonth() + 1;
     month = (month < 10 ? "0" : "") + month;
     var day  = date.getDate();
     day = (day < 10 ? "0" : "") + day;
-    return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
+    return month + ":" + day + ":" + hour + ":" + min + ":" + sec;
 }
