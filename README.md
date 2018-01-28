@@ -1,20 +1,41 @@
 # embedBot
-[<img src="https://img.shields.io/badge/%3E-Invite_to_Server-7289da.svg">](https://discordapp.com/oauth2/authorize?client_id=301179263233556480&scope=bot&permissions=515136)
+[<img src="https://img.shields.io/badge/%3E-Invite_to_Server-7289da.svg">](https://discordapp.com/oauth2/authorize?client_id=301179263233556480&scope=bot&permissions=515136) [<img src="https://img.shields.io/badge/%3E-Support_Server-7289da.svg">](https://discord.gg/fbw2JrF) [![Discord Bots](https://discordbots.org/api/widget/servers/301179263233556480.svg)](https://discordbots.org/bot/301179263233556480)
+  [![Discord Bots](https://discordbots.org/api/widget/status/301179263233556480.svg)](https://discordbots.org/bot/301179263233556480)
 
 Takes video file from discord, uploads to Streamable, and posts link back in discord. This prevents having users download the video themselves.
 
-## Project Details
-Feel free to use all code for any purpose denoted under the ISC license. I do however urge you to not duplicate the bot, but rather use it as an example for your own, hopefully beter, projects.
+## How to Use
+Simpily click the "invite to server" button above and select which discord server you'd like it to join.
 
-## TODOs:
-### Prep for mass deployment
-Allow bot to ask for server admin's username/password for Streamable, as to not use mine for every server.
+**COMMANDS:**<br>
+```sudo toggle on``` 		= 	Bot will upload all videos from the server. This is the default.<br>
+```sudo toggle request```	=	Bot will only upload videos where it is mentioned in the description (@ShuiiBot#9991).<br>
+```sudo toggle off``` 	=	Bot will not upload any videos.<br>
 
-Find better hosting solution, currently deployed on my personal PC.
+## Hosting Locally
+Feel free to use all code for any purpose denoted under the ISC license. I do however urge you to not duplicate the bot, but rather use it as an reference.
 
-### Quality of life
-Code cleanup
+To get this running locally, you will need to add two JSON files to the project with the listed format:
 
-Not be lazy and use issues section instead of posting todos on the readme :^)
+**config.json:**
+```json
+{  
+   "dbtoken":"Your discordbots.org API token here",
+   "token":"Your discord bot API token here",
+   "email":"Your streamable.com email address here",
+   "password":"Your streamable.com password here"
+}
+```
 
+**serverSettings.json:**
+```json
+{  
+   "enable":[],
+   "disable":[],
+   "req":[]
+}
+```
+Once you have these you can simply 'npm start'
 
+## Issues/Questions
+Please do not hesitate to report any bugs in the issues section of this project. For any questions, please join my support server (2nd button at the top of this document) and I will be happy to help
