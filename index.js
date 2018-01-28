@@ -11,25 +11,17 @@ const movieFormats = ['mov', 'mp4', 'mpeg4', 'avi', 'wmv', 'flv', '3gp', 'mpegs'
 
 //When added to guild, default to allow auto enabled bot
 bot.on('guildCreate', function (guild) {
-    console.log("joined new guild");
+    console.log("joined new guild: " + guild.id);
+    console.log("alpha");
     settings.enable.push(guild.id);
+    console.log("bravo");
     fs.writeFileSync('./serverSettings.json', JSON.stringify(settings));
+    console.log("charlie")
 });
 
 //When removed from guild, delete settings from json
 bot.on('guildDelete', function (guild) {
-    var id = guild.id;
-    if(settings.enable.includes(id)){
-       settings.enable.splice(settings.enable.indexOf(id))
-   }
-    if(settings.disable.includes(id)){
-        settings.disable.splice(settings.disable.indexOf(id))
-    }
-    if(settings.req.includes(id)){
-        settings.req.splice(settings.enable.indexOf(id))
-    }
-    fs.writeFileSync('./serverSettings.json', JSON.stringify(settings));
-
+    updateSettings(4, guild.id);
 });
 
 //When a message is found
@@ -37,51 +29,16 @@ bot.on('message', function (message) {
     //Ignore other bots
     if (message.author.bot) return;
 
+    //Check if message is from guild or DM
     if(message.guild) {var id = message.guild.id;}
     else {var id = null}
 
     //Toggle feature. message.member can be null sometimes I guess hence second if statement
-    //I'm the best coder :^)
     if (message.member && id){
         if(message.member.hasPermission("ADMINISTRATOR") || message.author.tag === 'Shuii#9701') {
-            if (message == 'sudo toggle on') {
-                if (settings.disable.includes(id)){
-                    settings.disable.splice(settings.disable.indexOf(id), 1);
-                }
-                if (settings.req.includes(id)){
-                    settings.req.splice(settings.req.indexOf(id), 1);
-                }
-                if(!settings.enable.includes(id)) {
-                    settings.enable.push(id);
-                    fs.writeFileSync('./serverSettings.json', JSON.stringify(settings));
-                }
-            }
-            else if (message == 'sudo toggle off') {
-                if (settings.enable.includes(id)){
-                    settings.enable.splice(settings.enable.indexOf(id), 1);
-                }
-                if (settings.req.includes(id)){
-                    settings.req.splice(settings.req.indexOf(id), 1);
-                }
-                if(!settings.disable.includes(id))
-                {
-                    settings.disable.push(id);
-                    fs.writeFileSync('./serverSettings.json', JSON.stringify(settings));
-                }
-            }
-
-            else if (message == 'sudo toggle request') {
-                if (settings.disable.includes(id)){
-                    settings.disable.splice(settings.disable.indexOf(id), 1);
-                }
-                if (settings.enable.includes(id)){
-                    settings.enable.splice(settings.enable.indexOf(id), 1);
-                }
-                if(!settings.req.includes(id)) {
-                    settings.req.push(id);
-                    fs.writeFileSync('./serverSettings.json', JSON.stringify(settings));
-                }
-            }
+            if (message == 'sudo toggle on'){updateSettings(0, id)}
+            if (message == 'sudo toggle off'){updateSettings(1, id)}
+            if (message == 'sudo toggle request'){updateSettings(2,id)}
         }
     }
 
@@ -168,3 +125,18 @@ bot.on('message', function (message) {
         }
     }
 });
+
+function updateSettings(setting, id) {
+    console.log('updating settings for ' + id);
+    var arrays = [settings.enable, settings.disable, settings.req];
+
+    //delete server from other settings
+    for(var i=0; i<arrays.length; i++){
+        if(arrays[i].includes(id)){
+            arrays[i].splice(arrays[i].indexOf(id), 1);
+        }
+    }
+    //add server to new setting
+    if(setting <= 3){arrays[setting].push(id);}
+    fs.writeFileSync('./serverSettings.json', JSON.stringify(settings));
+}
