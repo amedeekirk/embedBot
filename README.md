@@ -4,6 +4,8 @@
 
 Takes video file from discord, uploads to Streamable, and posts link back in discord. This prevents having users download the video themselves.
 
+DUE TO DISCORD UPDATE, THIS BOT IS NOW DEPRECIATED. Thank you to all that utilized at as well as helped me figure out what I was doing.
+
 ## How to Use
 Simpily click the "invite to server" button above and select which discord server you'd like it to join.
 
