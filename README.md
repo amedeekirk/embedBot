@@ -1,5 +1,5 @@
 # embedBot
-[<img src="https://img.shields.io/badge/%3E-Invite_to_Server-7289da.svg">](https://discordapp.com/oauth2/authorize?client_id=301179263233556480&scope=bot&permissions=515136) [<img src="https://img.shields.io/badge/%3E-Support_Server-7289da.svg">](https://discord.gg/fbw2JrF) [![Discord Bots](https://discordbots.org/api/widget/servers/301179263233556480.svg)](https://discordbots.org/bot/301179263233556480)
+[<img src="https://img.shields.io/badge/%3E-Support_Server-7289da.svg">](https://discord.gg/fbw2JrF) [![Discord Bots](https://discordbots.org/api/widget/servers/301179263233556480.svg)](https://discordbots.org/bot/301179263233556480)
   [![Discord Bots](https://discordbots.org/api/widget/status/301179263233556480.svg)](https://discordbots.org/bot/301179263233556480)
 
 Takes video file from discord, uploads to Streamable, and posts link back in discord. This prevents having users download the video themselves.
